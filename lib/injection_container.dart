@@ -1,3 +1,5 @@
+import 'package:bloc_tutorial_todo/features/todos/data/data_sources/local/dao/todo_dao.dart';
+import 'package:bloc_tutorial_todo/features/todos/data/data_sources/local/dao/todo_dao_impl.dart';
 import 'package:bloc_tutorial_todo/features/todos/data/models/todo.dart';
 import 'package:bloc_tutorial_todo/features/todos/data/repositories/todo_repository_impl.dart';
 import 'package:bloc_tutorial_todo/features/todos/domain/repositories/todo_repository.dart';
@@ -19,8 +21,11 @@ Future<void> initializeDependencies() async {
   await Hive.initFlutter();
   Hive.registerAdapter(TodoModelAdapter());
 
+  // DAO
+  sl.registerFactory<TodoDao>(() => TodoDaoImpl());
+
   // Repositories
-  sl.registerSingleton<TodoRepository>(TodoRepositoryImpl());
+  sl.registerSingleton<TodoRepository>(TodoRepositoryImpl(sl()));
 
   // Usecases
   sl.registerLazySingleton<GetAllUseCase>(() => GetAllUseCase(sl()));

@@ -1,41 +1,40 @@
+import 'package:bloc_tutorial_todo/features/todos/data/data_sources/local/dao/todo_dao.dart';
 import 'package:bloc_tutorial_todo/features/todos/data/models/todo.dart';
 import 'package:bloc_tutorial_todo/features/todos/domain/entities/todo.dart';
 import 'package:bloc_tutorial_todo/features/todos/domain/repositories/todo_repository.dart';
 
 class TodoRepositoryImpl extends TodoRepository {
+  final TodoDao _todoDao;
+
+  TodoRepositoryImpl(this._todoDao);
+
   @override
   Future<List<TodoModel>> getAllItems() async {
-    var box = await boxFromHive;
-    return box.values.toList();
+    return _todoDao.getAllItems();
   }
 
   @override
   Future<TodoModel?> getItem(String id) async {
-    var box = await boxFromHive;
-    return box.get(id);
+    return _todoDao.getItem(id);
   }
 
   @override
   Future<void> addItem(TodoEntity todoEntity) async {
-    var box = await boxFromHive;
-    await box.put(todoEntity.id, TodoModel.fromEntity(todoEntity));
+    await _todoDao.addItem(todoEntity);
   }
 
   @override
   Future<void> updateItem(TodoEntity todoEntity) async {
-    var box = await boxFromHive;
-    await box.put(todoEntity.id, TodoModel.fromEntity(todoEntity));
+    await _todoDao.updateItem(todoEntity);
   }
 
   @override
   Future<void> deleteItem(String id) async {
-    var box = await boxFromHive;
-    await box.delete(id);
+    await _todoDao.deleteItem(id);
   }
 
   @override
   Future<void> deleteAll() async {
-    var box = await boxFromHive;
-    await box.clear();
+    await _todoDao.deleteAll();
   }
 }

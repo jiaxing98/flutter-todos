@@ -1,7 +1,7 @@
 import 'package:bloc_tutorial_todo/features/todos/data/models/todo.dart';
 import 'package:bloc_tutorial_todo/features/todos/domain/entities/todo.dart';
 
-abstract class TodoRepository {
+abstract class TodoDao {
   Future<List<TodoModel>> getAllItems();
 
   Future<TodoModel?> getItem(String id);
