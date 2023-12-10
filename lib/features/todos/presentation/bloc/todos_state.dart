@@ -30,5 +30,5 @@ class TodosLoaded extends TodosState {
 class TodosError extends TodosState {
   final String message;
 
-  const TodosError(this.message);
+  const TodosError({this.message = 'Something went wrong.'});
 }

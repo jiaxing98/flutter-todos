@@ -1,4 +1,4 @@
-import 'package:bloc_tutorial_todo/core/constants/weatherAPI.dart';
+import 'package:bloc_tutorial_todo/core/network/weather_api.dart';
 import 'package:bloc_tutorial_todo/features/weather/presentation/bloc/weather_bloc.dart';
 import 'package:bloc_tutorial_todo/features/weather/presentation/bloc/weather_event.dart';
 import 'package:bloc_tutorial_todo/features/weather/presentation/bloc/weather_state.dart';

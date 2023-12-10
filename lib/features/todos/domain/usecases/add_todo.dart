@@ -1,14 +1,14 @@
-import 'package:bloc_tutorial_todo/core/usecase.dart';
+import 'package:bloc_tutorial_todo/core/network/failure.dart';
 import 'package:bloc_tutorial_todo/features/todos/domain/entities/todo.dart';
 import 'package:bloc_tutorial_todo/features/todos/domain/repositories/todo_repository.dart';
+import 'package:dartz/dartz.dart';
 
-class AddTodoUseCase extends UseCase<void, TodoEntity> {
+class AddTodoUseCase {
   final TodoRepository _todoRepository;
 
   AddTodoUseCase(this._todoRepository);
 
-  @override
-  Future<void> call([TodoEntity? params]) async {
-    _todoRepository.addItem(params!);
+  Future<Option<Failure>> call([TodoEntity? params]) async {
+    return _todoRepository.addItem(params!);
   }
 }

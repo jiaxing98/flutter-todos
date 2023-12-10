@@ -32,78 +32,54 @@ class TodosBloc extends Bloc<TodosEvent, TodosState> {
   }
 
   void _onLoadTodos(LoadTodos event, Emitter<TodosState> emit) async {
-    await _crud(
-      emit,
-      mustLoaded: false,
-      onAction: () => {},
+    emit(const TodosLoading());
+
+    final result = await _getAllTodosUseCases();
+    result.fold(
+      (failure) => emit(const TodosError()),
+      (data) {
+        emit(TodosLoaded(todos: data));
+      },
     );
   }
 
   void _onAddTodo(AddTodo event, Emitter<TodosState> emit) async {
-    await _crud(
-      emit,
-      mustLoaded: false,
-      onAction: () => _addTodoUseCase(event.todo),
+    emit(const TodosLoading());
+
+    final result = await _addTodoUseCase(event.todo);
+    result.fold(
+      () async => add(const LoadTodos()),
+      (failure) => emit(const TodosError()),
     );
   }
 
   void _onUpdateTodo(UpdateTodo event, Emitter<TodosState> emit) async {
-    await _crud(
-      emit,
-      mustLoaded: true,
-      onAction: () => _updateTodoUseCase(event.todo),
+    emit(const TodosLoading());
+
+    final result = await _updateTodoUseCase(event.todo);
+    result.fold(
+      () => add(const LoadTodos()),
+      (failure) => emit(const TodosError()),
     );
   }
 
   void _onDeleteTodo(DeleteTodo event, Emitter<TodosState> emit) async {
-    await _crud(
-      emit,
-      mustLoaded: true,
-      onAction: () => _deleteTodoUseCase(event.id),
+    emit(const TodosLoading());
+
+    final result = await _deleteTodoUseCase(event.id);
+    result.fold(
+      () => add(const LoadTodos()),
+      (failure) => emit(const TodosError()),
     );
   }
 
   void _onDeleteAll(DeleteAll event, Emitter<TodosState> emit) async {
-    await _crud(
-      emit,
-      mustLoaded: true,
-      onAction: () => _deleteAllUseCase(),
+    emit(const TodosLoading());
+
+    final result = await _deleteAllUseCase();
+    result.fold(
+      () => add(const LoadTodos()),
+      (failure) => emit(const TodosError()),
     );
-  }
-
-  Future _crud(
-    Emitter<TodosState> emit, {
-    required bool mustLoaded,
-    required Function() onAction,
-    Function()? onFinish,
-    Function()? onError,
-  }) async {
-    if (mustLoaded) {
-      emit(
-        const TodosLoading(),
-      );
-    }
-
-    try {
-      await onAction();
-      await Future.delayed(const Duration(milliseconds: 500));
-
-      final todos = await _getAllTodosUseCases();
-      if (todos.isEmpty) {
-        emit(
-          const TodosEmpty(),
-        );
-      } else {
-        emit(
-          TodosLoaded(todos: todos),
-        );
-      }
-      await onFinish?.call();
-    } catch (ex) {
-      emit(
-        TodosError(ex.toString()),
-      );
-      await onError?.call();
-    }
   }
 }

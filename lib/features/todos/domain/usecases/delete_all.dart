@@ -1,13 +1,13 @@
-import 'package:bloc_tutorial_todo/core/usecase.dart';
+import 'package:bloc_tutorial_todo/core/network/failure.dart';
 import 'package:bloc_tutorial_todo/features/todos/domain/repositories/todo_repository.dart';
+import 'package:dartz/dartz.dart';
 
-class DeleteAllUseCase extends UseCase<void, void> {
+class DeleteAllUseCase {
   final TodoRepository _todoRepository;
 
   DeleteAllUseCase(this._todoRepository);
 
-  @override
-  Future<void> call([void params]) async {
+  Future<Option<Failure>> call([void params]) async {
     return _todoRepository.deleteAll();
   }
 }

@@ -28,8 +28,9 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
 
     try {
       final result = await _getCurrentWeatherUseCase(event.cityName);
-      emit(
-        WeatherLoaded(result),
+      result.fold(
+        (ex) => emit(WeatherError(ex.message)),
+        (data) => emit(WeatherLoaded(data)),
       );
     } on DioException catch (ex) {
       var error = 'Something went wrong.';

@@ -1,4 +1,4 @@
-import 'package:bloc_tutorial_todo/core/constants/weatherAPI.dart';
+import 'package:bloc_tutorial_todo/core/network/weather_api.dart';
 import 'package:bloc_tutorial_todo/features/weather/data/models/weather.dart';
 import 'package:dio/dio.dart';
 
@@ -21,7 +21,6 @@ class WeatherServiceImpl extends WeatherService {
         'appid': WeatherAPI.apiKey,
       },
     );
-
     return WeatherModel.fromJson(response.data);
   }
 }

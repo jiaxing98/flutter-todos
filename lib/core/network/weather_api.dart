@@ -11,6 +11,8 @@ abstract class WeatherAPI {
         connectTimeout: const Duration(seconds: 10),
         receiveTimeout: const Duration(seconds: 10),
         sendTimeout: const Duration(seconds: 10),
+        validateStatus: (statusCode) =>
+            (statusCode != null && statusCode >= 200 && statusCode <= 300),
       );
 
   static String weatherIcon(String iconCode) =>
