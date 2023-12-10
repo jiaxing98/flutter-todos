@@ -16,8 +16,8 @@ class TodoRepositoryImpl extends TodoRepository {
       var result = await _todoDao.getAllItems();
       //todo: model to entity
       return Right(result);
-    } on Exception catch (ex) {
-      var failure = handleLocalException(ex);
+    } on Error catch (err) {
+      var failure = handleLocalException(err);
       return Left(failure);
     }
   }
@@ -27,8 +27,8 @@ class TodoRepositoryImpl extends TodoRepository {
     try {
       var result = await _todoDao.getItem(id);
       return Right(result);
-    } on Exception catch (ex) {
-      var failure = handleLocalException(ex);
+    } on Error catch (err) {
+      var failure = handleLocalException(err);
       return Left(failure);
     }
   }
@@ -38,8 +38,8 @@ class TodoRepositoryImpl extends TodoRepository {
     try {
       await _todoDao.addItem(todoEntity);
       return const None();
-    } on Exception catch (ex) {
-      var failure = handleLocalException(ex);
+    } on Error catch (err) {
+      var failure = handleLocalException(err);
       return Some(failure);
     }
   }
@@ -49,8 +49,8 @@ class TodoRepositoryImpl extends TodoRepository {
     try {
       await _todoDao.updateItem(todoEntity);
       return const None();
-    } on Exception catch (ex) {
-      var failure = handleLocalException(ex);
+    } on Error catch (err) {
+      var failure = handleLocalException(err);
       return Some(failure);
     }
   }
@@ -60,8 +60,8 @@ class TodoRepositoryImpl extends TodoRepository {
     try {
       await _todoDao.deleteItem(id);
       return const None();
-    } on Exception catch (ex) {
-      var failure = handleLocalException(ex);
+    } on Error catch (err) {
+      var failure = handleLocalException(err);
       return Some(failure);
     }
   }
@@ -71,8 +71,8 @@ class TodoRepositoryImpl extends TodoRepository {
     try {
       await _todoDao.deleteAll();
       return const None();
-    } on Exception catch (ex) {
-      var failure = handleLocalException(ex);
+    } on Error catch (err) {
+      var failure = handleLocalException(err);
       return Some(failure);
     }
   }

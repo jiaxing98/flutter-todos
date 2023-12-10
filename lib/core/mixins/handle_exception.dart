@@ -4,16 +4,14 @@ import 'package:hive/hive.dart';
 
 mixin HandleExceptionMixin {
   Failure handleRemoteException(Exception ex) {
-    if (ex.runtimeType is DioException) {
-      var dioEx = ex as DioException;
-      switch (dioEx.type) {
+    if (ex is DioException) {
+      switch (ex.type) {
         case DioExceptionType.badResponse:
-          return _validateBadResponse(dioEx.response);
+          return _validateBadResponse(ex.response);
         case DioExceptionType.sendTimeout:
         case DioExceptionType.receiveTimeout:
         case DioExceptionType.connectionTimeout:
-          return ConnectionFailure(
-              message: dioEx.message ?? 'Connection Timeout');
+          return ConnectionFailure(message: ex.message ?? 'Connection Timeout');
         default:
           return const UnknownFailure(message: 'Unknown Failure');
       }
@@ -22,9 +20,8 @@ mixin HandleExceptionMixin {
     }
   }
 
-  Failure handleLocalException(Exception ex) {
-    if (ex.runtimeType is HiveError) {
-      var err = ex as HiveError;
+  Failure handleLocalException(Error err) {
+    if (err is HiveError) {
       return DatabaseFailure(message: err.message);
     } else {
       return const UnknownFailure(message: 'Unknown Failure');

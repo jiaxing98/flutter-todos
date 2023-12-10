@@ -19,4 +19,24 @@ class WeatherModel extends WeatherEntity {
       _$WeatherModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$WeatherModelToJson(this);
+
+  factory WeatherModel.fromEntity(WeatherEntity entity) => WeatherModel(
+        cityName: entity.cityName,
+        main: entity.main,
+        description: entity.description,
+        iconCode: entity.iconCode,
+        temperature: entity.temperature,
+        pressure: entity.pressure,
+        humidity: entity.humidity,
+      );
+
+  WeatherEntity toEntity() => WeatherEntity(
+        cityName: cityName,
+        main: main,
+        description: description,
+        iconCode: iconCode,
+        temperature: temperature,
+        pressure: pressure,
+        humidity: humidity,
+      );
 }

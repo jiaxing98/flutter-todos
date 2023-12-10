@@ -15,7 +15,7 @@ class WeatherRepositoryImpl extends WeatherRepository {
       String cityName) async {
     try {
       final result = await _weatherService.getCurrentWeather(cityName);
-      return Right(result);
+      return Right(result.toEntity());
     } on DioException catch (ex) {
       var failure = handleRemoteException(ex);
       return Left(failure);
